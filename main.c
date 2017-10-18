@@ -66,10 +66,7 @@ int main(){
   strcpy(b->song, "harvarddropout");
   add(b);
 
-  song_node* a=malloc(1000);
-  strcpy(a->artist, "adick");
-  strcpy(a->song, "jasper");
-  add(a);
+
   print_table(0);
   song_node* c=malloc(1000);
   strcpy(c->artist, "apump");
@@ -81,7 +78,10 @@ int main(){
   strcpy(d->artist, "am");
   strcpy(d->song, "yal");
   add(d);
-  
+  song_node* a=malloc(1000);
+  strcpy(a->artist, "adick");
+  strcpy(a->song, "jasper");
+  add(a);  
   
   print_table(0);
   return 0;
