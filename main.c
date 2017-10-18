@@ -61,15 +61,15 @@ int compareto(song_node* n1, song_node* n2){
 
 int main(){
  
-  song_node* a=malloc(1000);
-  strcpy(a->artist, "adick");
-  strcpy(a->song, "jasper");
-  add(a);
   song_node* b=malloc(1000);
   strcpy(b->artist, "alilpump");
   strcpy(b->song, "harvarddropout");
   add(b);
 
+  song_node* a=malloc(1000);
+  strcpy(a->artist, "adick");
+  strcpy(a->song, "jasper");
+  add(a);
   print_table(0);
   song_node* c=malloc(1000);
   strcpy(c->artist, "apump");
