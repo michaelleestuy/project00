@@ -7,13 +7,17 @@ typedef struct song_node{
   char artist[256];
   struct song_node *next;
 } song_node;
-struct song_node * table[26];
+song_node * table[26];
+
+
+
 
 
 
 void print_table(int a){
   song_node *x =  table[a];
-  printf("table for %d : ", a);  while (x){
+  printf("table for %d : ", a);  
+  while (x){
     printf("%s , %s ; ", x->artist, x->song);
     x= x->next;
   }
@@ -21,6 +25,12 @@ void print_table(int a){
 }
 void add_helper(song_node* n, int a){
   song_node * x = table[a];
+  if (!table[a]){
+    printf("x\n");
+    table[a] = n;
+    return;
+  }
+  printf("y\n");
   if (compareto(n,x)<0){
     n->next = x;
     table[a] = n;
@@ -50,11 +60,29 @@ int compareto(song_node* n1, song_node* n2){
 
 
 int main(){
-
+ 
   song_node* a=malloc(1000);
   strcpy(a->artist, "adick");
   strcpy(a->song, "jasper");
-  add_helper(a,0);
+  add(a);
+  song_node* b=malloc(1000);
+  strcpy(b->artist, "alilpump");
+  strcpy(b->song, "harvarddropout");
+  add(b);
+
+  print_table(0);
+  song_node* c=malloc(1000);
+  strcpy(c->artist, "apump");
+  strcpy(c->song, "yale");
+  add(c);
+ 
+  print_table(0);
+  song_node* d=malloc(1000);
+  strcpy(d->artist, "am");
+  strcpy(d->song, "yal");
+  add(d);
+  
+  
   print_table(0);
   return 0;
 }
