@@ -12,7 +12,15 @@ song_node * table[26];
 
 
 
-
+int compare_to(song_node* n1, song_node* n2){
+  if (strcmp(n1->artist,n2->artist)!=0){
+    return strcmp(n1->artist,n2->artist);
+  }
+  else{
+    return strcmp(n1->song,n2->song);
+  }
+    
+}
 
 void print_table(int a){
   song_node *x =  table[a];
@@ -23,20 +31,23 @@ void print_table(int a){
   }
   printf("\n");
 }
-void add_helper(song_node* n, int a){
+
+
+/*void add_helper(song_node* n, int a){
   song_node * x = table[a];
   if (!table[a]){
-    printf("x\n");
     table[a] = n;
+
     return;
   }
-  printf("y\n");
+
   if (compareto(n,x)<0){
-    n->next = x;
     table[a] = n;
+    n->next;
   }
-  while(compareto(n,x)>=0&&x->next){
-    x = x->next;
+  
+  while(compareto(n,x)>=0 && x->next){
+    x= x->next;
   }
   n->next = x->next;
   x->next = n;
@@ -49,40 +60,34 @@ void add(song_node* n){
 }
 
 
-int compareto(song_node* n1, song_node* n2){
-  if (!(strcmp(n1->artist,n2->artist))){
-    return strcmp(n1->artist,n2->artist);
-  }
-  else{
-    return strcmp(n1->song,n2->song);
-  }
-}
+
+}*/
 
 
 int main(){
+  
+  song_node* b=malloc(550);
+  strcpy(b->artist, "adick");
+  strcpy(b->song, "barvarddropout");
+
+
+  song_node* a=malloc(550);
+  strcpy(a->artist, "adick");
+  strcpy(a->song, "casper");
  
-  song_node* b=malloc(1000);
-  strcpy(b->artist, "alilpump");
-  strcpy(b->song, "harvarddropout");
-  add(b);
-
-
-  print_table(0);
-  song_node* c=malloc(1000);
+  printf("%d",compare_to(b,a));
+    /*song_node* c=malloc(550);
   strcpy(c->artist, "apump");
   strcpy(c->song, "yale");
   add(c);
  
   print_table(0);
-  song_node* d=malloc(1000);
+  song_node* d=malloc(550);
   strcpy(d->artist, "am");
   strcpy(d->song, "yal");
   add(d);
-  song_node* a=malloc(1000);
-  strcpy(a->artist, "adick");
-  strcpy(a->song, "jasper");
-  add(a);  
-  
-  print_table(0);
+  print_table(0);*/
+ 
+
   return 0;
 }
