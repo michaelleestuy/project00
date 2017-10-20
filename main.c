@@ -49,11 +49,11 @@ void add_helper(song_node* n, int a){
     prev = x;
     x= x->next;
   }
-  if (x && compare_to(n,x)<=0){
+  if (x && compare_to(n,x)<=0){//middle
   n->next = x;
   prev->next = n;
   }
-  else{
+  else{//end
     x->next = n;
   }
 }
