@@ -27,11 +27,11 @@ void print_table(int a){
   song_node *x =  table[a];
   printf("table for %d : ", a);  
   while (x->next){
-    printf("%s , %s ; ", x->artist, x->song);
+    printf("%s - %s | ", x->artist, x->song);
     x= x->next;
   }
-  printf("%s , %s ; ", x->artist, x->song);
-  printf("\n");
+  printf("%s - %s | ", x->artist, x->song);
+  printf("\n\n");
 }
 
 
@@ -71,41 +71,54 @@ song_node * search_song(char s[256] , char a[256] ){
   int y = (int)x - 'a';
   song_node * z = table[y];
   while (z->next){//loops until end element
-    if (!(strcmp(s,z->song)&&strcmp(a,z->artist))){
+    if (!(strcmp(s,z->song)||strcmp(a,z->artist))){
       return z;
     }
     else{
       z=z->next;
     }
   }
-  if (!(strcmp(s,z->song)&&strcmp(a,z->artist))){
+    if (!(strcmp(s,z->song)||strcmp(a,z->artist))){//last element
    return z;
   }
-  
+  printf("No Such Element");
+  return 0;
+}
+song_node * artist(char a[256]){
+  char x = a[0];
+  int y = (int)x-'a';
+  song_node *z = table[y];
+  while (z->next){
+    if (!(strcmp(a,z->artist))){
+      return z;
+    }
+    else{
+      z = z->next;
+    }
+  }
 }
 
 
 
 int main(){
 
-  
+  printf("\t\t\t Testing add\n\n");
   song_node* b=malloc(550);
   strcpy(b->artist, "adick");
   strcpy(b->song, "barvarddropout");
   add(b);
-    print_table(0);
-
+    
   song_node* a=malloc(550);
   strcpy(a->artist, "adick");
   strcpy(a->song, "casper");
   add(a);
-  print_table(0);
+  
  
     song_node* c=malloc(550);
-  strcpy(c->artist, "apump");
-  strcpy(c->song, "yale");
+  strcpy(c->artist, "amar");
+  strcpy(c->song, "humble");
   add(c);
-  print_table(0);
+  
   
   song_node* d=malloc(550);
   strcpy(d->artist, "am");
@@ -113,6 +126,10 @@ int main(){
   add(d);
   print_table(0);
  
+  printf("\t\t\tTesting search_node\n\n");
+
+  printf("Search for amar - humble : Got %s - %s\n\n", search_song("humble","amar")->artist, search_song("humble","amar")->song);
+  
 
   return 0;
 }
