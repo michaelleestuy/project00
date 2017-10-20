@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+
 typedef struct song_node{
   char song[256];
   char artist[256];
@@ -64,7 +65,11 @@ void add(song_node* n){
   add_helper(n,y);
 }
 
-
+song_node * search_song(char s[256] , char a[256] ){
+   char x = a[0];
+  int y = (int)x - 'a';
+  return 0;
+}
 
 
 
