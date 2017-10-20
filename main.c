@@ -65,12 +65,24 @@ void add(song_node* n){
   add_helper(n,y);
 }
 
+
 song_node * search_song(char s[256] , char a[256] ){
    char x = a[0];
   int y = (int)x - 'a';
-  return 0;
+  song_node * z = table[y];
+  while (z->next){//loops until end element
+    if (!(strcmp(s,z->song)&&strcmp(a,z->artist))){
+      return z;
+    }
+    else{
+      z=z->next;
+    }
+  }
+  if (!(strcmp(s,z->song)&&strcmp(a,z->artist))){
+   return z;
+  }
+  
 }
-
 
 
 
