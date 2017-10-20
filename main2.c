@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+
 typedef struct song_node{
   char song[256];
   char artist[256];
@@ -65,11 +66,11 @@ void add(song_node* n){
 }
 
 
-void freechain(song_node* n){
+void free_chain(song_node* n){
   if(!n){
     return;
   }
-  freechain(n->next);
+  free_chain(n->next);
   free(n);
   return;
 }
@@ -79,9 +80,69 @@ void freechain(song_node* n){
 void delete_all(){
   int i;
   for(i = 0; i < 26; i++){
-    freechain(table[i]);
+    free_chain(table[i]);
     table[i] = 0;
   }
+}
+
+song_node * search_song(char s[256], char a[256]){
+  return 0;
+}
+
+song_node * get_previous(char s[256], char a[256]){
+  song_node * spot = search_song(s, a);
+  if(!spot){
+    return 0;
+  }
+  char x = a[0];
+  int y = (int)x - 'a';
+  song_node * tabler = table[y];
+  if(tabler == spot){
+    return 0;
+  }
+  else{
+    song_node * prev = table[0];
+    while(tabler != spot){
+      prev = tabler;
+      tabler = tabler->next;
+    }
+    return prev;
+  }
+}
+
+void delete_song(char s[256], char a[256]){
+  song_node * spot = search_song(s, a);
+  if(!spot){
+    printf("Song doesn't exist");
+    return;
+  }
+  else{
+    song_node * prev = get_previous(s, a);
+    if(!prev){//first element
+      if(!spot->next){//only element
+	free(spot);
+	char x = a[0];
+	int y = (int)x - 'a';
+	table[y] = 0;
+      }
+      else{
+	char x = a[0];
+	int y = (int)x - 'a';
+	table[y] = spot->next;
+	free(spot);
+      }
+    }
+    else{
+      if(!spot->next){//last element
+	prev->next = 0;
+	free(spot);
+      }
+      else{//middle case
+	prev->next = spot->next;
+	free(spot);
+      }      
+    }
+  } 
 }
 
 
@@ -94,26 +155,22 @@ int main(){
   strcpy(b->artist, "adick");
   strcpy(b->song, "barvarddropout");
   add(b);
-    print_table(0);
 
   song_node* a=malloc(550);
   strcpy(a->artist, "adick");
   strcpy(a->song, "casper");
   add(a);
-  print_table(0);
  
     song_node* c=malloc(550);
   strcpy(c->artist, "apump");
   strcpy(c->song, "yale");
   add(c);
-  print_table(0);
-  
+ 
   song_node* d=malloc(550);
   strcpy(d->artist, "am");
   strcpy(d->song, "yal");
   add(d);
   print_table(0);
- 
 
   return 0;
 }
