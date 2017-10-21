@@ -23,9 +23,10 @@ int compare_to(song_node* n1, song_node* n2){
     
 }
 
-void print_letter(int a){
-  song_node *x =  table[a];
-  printf("table for %d : ", a);  
+void print_letter(char c){
+  int y = (int)c-'a';
+  song_node *x =  table[y];
+  printf("Table for artists starting with %c : ", c);  
   while (x->next){
     printf("%s - %s | ", x->artist, x->song);
     x= x->next;
@@ -145,7 +146,7 @@ int main(){
   strcpy(d->artist, "am");
   strcpy(d->song, "yal");
   add(d);
-  print_letter(0);
+  print_letter('a');
  
   printf("\t\t\tTesting search_node\n\n");
 
