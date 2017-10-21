@@ -311,6 +311,7 @@ int main(){
   printf("\t\t\tTesting delete_all\n\n");
   printf("Before : ");
   print_library();
+  delete_all();
   printf("\nAfter : ");
   print_library();
   printf("\n\n");
