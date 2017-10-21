@@ -1,17 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "tunes.h"
 #include <time.h>
-
-
-typedef struct song_node{
-  char song[256];
-  char artist[256];
-  struct song_node *next;
-} song_node;
-song_node * table[26];
-
-
 
 
 int compare_to(song_node* n1, song_node* n2){
@@ -32,8 +23,23 @@ void print_letter(char c){
     printf("%s - %s | ", x->artist, x->song);
     x= x->next;
   }
-  printf("%s - %s | ", x->artist, x->song);
+  printf("%s - %s ", x->artist, x->song);
   printf("\n\n");
+}
+void print_library(){
+  int i = 0;
+  printf("Entire Library : ");
+  for (; i<26; i++){
+    if (table[i]){
+    song_node *x = table[i];
+    while(x->next){
+      printf("%s - %s | ", x->artist, x->song);
+      x = x->next;
+    }
+      printf("%s - %s | ", x->artist, x->song);
+
+    }
+  }
 }
 
 
@@ -94,6 +100,7 @@ song_node * search_artist(char a[256]){
   while (z->next){
     if (!(strcmp(a,z->artist))){
       return z;
+
     }
     else{
       z = z->next;
@@ -111,17 +118,19 @@ void print_artist(char a[256]){
   song_node *z = table[y];
   while (z->next){
     if (!(strcmp(a,z->artist))){
-      printf("%s |", z->song);
+      printf("%s | ", z->song);
+      z=z->next;
     }
     else{
       z=z->next;
     }
   }
   if (!(strcmp(a,z->artist))){
-      printf("%s |", z->song);
+      printf("%s | ", z->song);
     }
  
 }
+
 void free_chain(song_node* n){
   if(!n){
     return;
@@ -203,7 +212,7 @@ void shuffle(int n){
   srand(time(NULL));
   int i = 0;
   int attempts = 0;
-  printf("Shuffling: \n");
+  printf("Shuffling : \n");
   while(i < n && attempts < 5000){
     attempts++;
     int let = rand() % 26;
@@ -213,7 +222,7 @@ void shuffle(int n){
       while(!added){
 	int boo = rand() % 10;
 	if(!boo){
-	  printf("%s, %s\n", ele->artist, ele->song);
+	  printf("%s - %s\n", ele->artist, ele->song);
 	  i++;
 	  added = 1;
 	}
@@ -231,48 +240,78 @@ void shuffle(int n){
   }
 }
 
-
-
-
 int main(){
+
 
   printf("\t\t\t Testing add and print_letter\n\n");
   song_node* b=malloc(550);
-  strcpy(b->artist, "apick");
-  strcpy(b->song, "barvarddropout");
+  strcpy(b->artist, "adele");
+  strcpy(b->song, "hello");
   add(b);
     
   song_node* a=malloc(550);
-  strcpy(a->artist, "apick");
-  strcpy(a->song, "acasper");
+  strcpy(a->artist, "adele");
+  strcpy(a->song, "rolling in the deep");
   add(a);
   
  
     song_node* c=malloc(550);
-  strcpy(c->artist, "amar");
-  strcpy(c->song, "humble");
+  strcpy(c->artist, "ariana grande");
+  strcpy(c->song, "side to side");
   add(c);
   
   
   song_node* d=malloc(550);
-  strcpy(d->artist, "am");
-  strcpy(d->song, "yal");
+  strcpy(d->artist, "post malone");
+  strcpy(d->song, "rockstar");
   add(d);
   print_letter('a');
  
   printf("\t\t\tTesting search_node\n\n");
 
-  printf("Search for amar - humble : Got %s - %s\n\n", search_song("humble","amar")->artist, search_song("humble","amar")->song);
+  printf("Search for adele - hello : Got %s - %s\n\n", search_song("hello","adele")->artist, search_song("hello","adele")->song);
 
   printf("\t\t\tTesting search_artist\n\n");
 
-  printf("Search for artist am : Got %s - %s\n\n", search_artist("am")->artist, search_artist("am")->song);
-  
-  
-  shuffle(5);
+  printf("Search for artist adele : Got %s - %s\n\n", search_artist("adele")->artist, search_artist("adele")->song);
 
-  srand(time(NULL));
+  printf("\t\t\tTesting print_artist\n\n");
+
+  print_artist("apick");
+  printf("\n\n");
+
+  song_node * e = malloc(550);
+  strcpy(e->song,"gucci gang");
+  strcpy(e->artist, "lil pump");
+  add(e);
+  song_node *f = malloc(550);
+  strcpy(f->song, "believer");
+  strcpy(f->artist, "imagine dragons");
+  add(f);
+   song_node *g = malloc(550);
+  strcpy(g->song, "thunder");
+  strcpy(g->artist, "imagine dragons");
+  add(g);
+ 
+  printf("\t\t\tTesting print_library\n\n");
+  print_library();
+  printf("\n\n");
+  printf("\t\t\tTesting shuffle\n\n");
+  shuffle(5);
+  printf("\n\n");
+  printf("\t\t\tTesting delete_song\n\n");
+  printf("Before : ");
+  print_letter('a');
+  printf("Deleted adele - hello\nAfter : ");
+  delete_song("hello", "adele");
+  print_letter('a');
+  printf("\t\t\tTesting delete_all\n\n");
+  printf("Before : ");
+  print_library();
+  printf("\nAfter : ");
+  print_library();
+  printf("\n\n");
   
-  printf("%d", rand());
   return 0;
 }
+
