@@ -90,7 +90,7 @@ song_node * search_song(char s[256] , char a[256] ){
     if (!(strcmp(s,z->song)||strcmp(a,z->artist))){//last element
    return z;
   }
-  printf("No Such Element");
+  printf("Song Doesn't Exist");
   return 0;
 }
 song_node * search_artist(char a[256]){
@@ -109,6 +109,9 @@ song_node * search_artist(char a[256]){
    if (!(strcmp(a,z->artist))){
       return z;
     }
+ 
+   printf("Artist doesn't exist)");
+     return 0;
 }
 
 void print_artist(char a[256]){
@@ -314,4 +317,5 @@ int main(){
   
   return 0;
 }
+
 
