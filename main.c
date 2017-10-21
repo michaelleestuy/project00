@@ -34,6 +34,21 @@ void print_letter(char c){
   printf("%s - %s | ", x->artist, x->song);
   printf("\n\n");
 }
+void print_library(){
+  int i = 0;
+  printf("Entire Library : ");
+  for (; i<26; i++){
+    if (table[i]){
+    song_node *x = table[i];
+    while(x->next){
+      printf("%s - %s | ", x->artist, x->song);
+      x = x->next;
+    }
+      printf("%s - %s | ", x->artist, x->song);
+
+    }
+  }
+}
 
 
 void add_helper(song_node* n, int a){
@@ -93,6 +108,7 @@ song_node * search_artist(char a[256]){
   while (z->next){
     if (!(strcmp(a,z->artist))){
       return z;
+
     }
     else{
       z = z->next;
@@ -110,14 +126,15 @@ void print_artist(char a[256]){
   song_node *z = table[y];
   while (z->next){
     if (!(strcmp(a,z->artist))){
-      printf("%s |", z->song);
+      printf("%s | ", z->song);
+      z=z->next;
     }
     else{
       z=z->next;
     }
   }
   if (!(strcmp(a,z->artist))){
-      printf("%s |", z->song);
+      printf("%s | ", z->song);
     }
  
 }
@@ -155,5 +172,18 @@ int main(){
   printf("\t\t\tTesting search_artist\n\n");
 
   printf("Search for artist am : Got %s - %s\n\n", search_artist("am")->artist, search_artist("am")->song);
+
+  printf("\t\t\tTesting print_artist\n\n");
+
+  print_artist("apick");
+  printf("\n\n");
+
+  song_node * e = malloc(550);
+  strcpy(e->song,"gucci gang");
+  strcpy(e->artist, "lil pump");
+  add(e);
+  printf("\t\t\tTesting print_library\n\n");
+  print_library();
+  printf("\n\n");
   return 0;
 }
