@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 
 typedef struct song_node{
@@ -33,21 +34,6 @@ void print_letter(char c){
   }
   printf("%s - %s | ", x->artist, x->song);
   printf("\n\n");
-}
-void print_library(){
-  int i = 0;
-  printf("Entire Library : ");
-  for (; i<26; i++){
-    if (table[i]){
-    song_node *x = table[i];
-    while(x->next){
-      printf("%s - %s | ", x->artist, x->song);
-      x = x->next;
-    }
-      printf("%s - %s | ", x->artist, x->song);
-
-    }
-  }
 }
 
 
@@ -108,7 +94,6 @@ song_node * search_artist(char a[256]){
   while (z->next){
     if (!(strcmp(a,z->artist))){
       return z;
-
     }
     else{
       z = z->next;
@@ -126,18 +111,128 @@ void print_artist(char a[256]){
   song_node *z = table[y];
   while (z->next){
     if (!(strcmp(a,z->artist))){
-      printf("%s | ", z->song);
-      z=z->next;
+      printf("%s |", z->song);
     }
     else{
       z=z->next;
     }
   }
   if (!(strcmp(a,z->artist))){
-      printf("%s | ", z->song);
+      printf("%s |", z->song);
     }
  
 }
+void free_chain(song_node* n){
+  if(!n){
+    return;
+  }
+  free_chain(n->next);
+  free(n);
+  return;
+}
+
+
+
+void delete_all(){
+  int i;
+  for(i = 0; i < 26; i++){
+    free_chain(table[i]);
+    table[i] = 0;
+  }
+}
+
+song_node * get_previous(char s[256], char a[256]){
+  song_node * spot = search_song(s, a);
+  if(!spot){
+    return 0;
+  }
+  char x = a[0];
+  int y = (int)x - 'a';
+  song_node * tabler = table[y];
+  if(tabler == spot){
+    return 0;
+  }
+  else{
+    song_node * prev = table[0];
+    while(tabler != spot){
+      prev = tabler;
+      tabler = tabler->next;
+    }
+    return prev;
+  }
+}
+
+void delete_song(char s[256], char a[256]){
+  song_node * spot = search_song(s, a);
+  if(!spot){
+    printf("Song doesn't exist");
+    return;
+  }
+  else{
+    song_node * prev = get_previous(s, a);
+    if(!prev){//first element
+      if(!spot->next){//only element
+	free(spot);
+	char x = a[0];
+	int y = (int)x - 'a';
+	table[y] = 0;
+      }
+      else{
+	char x = a[0];
+	int y = (int)x - 'a';
+	table[y] = spot->next;
+	free(spot);
+      }
+    }
+    else{
+      if(!spot->next){//last element
+	prev->next = 0;
+	free(spot);
+      }
+      else{//middle case
+	prev->next = spot->next;
+	free(spot);
+      }      
+    }
+  } 
+}
+
+
+
+void shuffle(int n){
+  srand(time(NULL));
+  int i = 0;
+  int attempts = 0;
+  printf("Shuffling: \n");
+  while(i < n && attempts < 5000){
+    attempts++;
+    int let = rand() % 26;
+    song_node * ele = table[let];
+    if(ele){
+      int added = 0;
+      while(!added){
+	int boo = rand() % 10;
+	if(!boo){
+	  printf("%s, %s\n", ele->artist, ele->song);
+	  i++;
+	  added = 1;
+	}
+	if(!ele->next){
+	  added = 1;
+	}
+	else{
+	  ele = ele->next;	
+	}
+      }
+    }
+  }
+  if(i < n){
+    printf("out of songs!");
+  }
+}
+
+
+
 
 int main(){
 
@@ -172,18 +267,12 @@ int main(){
   printf("\t\t\tTesting search_artist\n\n");
 
   printf("Search for artist am : Got %s - %s\n\n", search_artist("am")->artist, search_artist("am")->song);
+  
+  
+  shuffle(5);
 
-  printf("\t\t\tTesting print_artist\n\n");
-
-  print_artist("apick");
-  printf("\n\n");
-
-  song_node * e = malloc(550);
-  strcpy(e->song,"gucci gang");
-  strcpy(e->artist, "lil pump");
-  add(e);
-  printf("\t\t\tTesting print_library\n\n");
-  print_library();
-  printf("\n\n");
+  srand(time(NULL));
+  
+  printf("%d", rand());
   return 0;
 }
