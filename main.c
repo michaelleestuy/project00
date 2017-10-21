@@ -23,7 +23,7 @@ int compare_to(song_node* n1, song_node* n2){
     
 }
 
-void print_table(int a){
+void print_letter(int a){
   song_node *x =  table[a];
   printf("table for %d : ", a);  
   while (x->next){
@@ -43,7 +43,8 @@ void add_helper(song_node* n, int a){
   }
   if (compare_to(n,x)<0){//front of list
     table[a] = n;
-    n->next;
+    n->next = x;
+    return;
   }
   song_node * prev = table[a];
   while(compare_to(n,x)>=0&&x->next){//middle of list
@@ -84,7 +85,7 @@ song_node * search_song(char s[256] , char a[256] ){
   printf("No Such Element");
   return 0;
 }
-song_node * artist(char a[256]){
+song_node * search_artist(char a[256]){
   char x = a[0];
   int y = (int)x-'a';
   song_node *z = table[y];
@@ -96,21 +97,41 @@ song_node * artist(char a[256]){
       z = z->next;
     }
   }
+   if (!(strcmp(a,z->artist))){
+      return z;
+    }
 }
 
-
+void print_artist(char a[256]){
+  printf("Songs for artist %s : ", a);
+   char x = a[0];
+  int y = (int)x-'a';
+  song_node *z = table[y];
+  while (z->next){
+    if (!(strcmp(a,z->artist))){
+      printf("%s |", z->song);
+    }
+    else{
+      z=z->next;
+    }
+  }
+  if (!(strcmp(a,z->artist))){
+      printf("%s |", z->song);
+    }
+ 
+}
 
 int main(){
 
-  printf("\t\t\t Testing add\n\n");
+  printf("\t\t\t Testing add and print_letter\n\n");
   song_node* b=malloc(550);
-  strcpy(b->artist, "adick");
+  strcpy(b->artist, "apick");
   strcpy(b->song, "barvarddropout");
   add(b);
     
   song_node* a=malloc(550);
-  strcpy(a->artist, "adick");
-  strcpy(a->song, "casper");
+  strcpy(a->artist, "apick");
+  strcpy(a->song, "acasper");
   add(a);
   
  
@@ -124,12 +145,14 @@ int main(){
   strcpy(d->artist, "am");
   strcpy(d->song, "yal");
   add(d);
-  print_table(0);
+  print_letter(0);
  
   printf("\t\t\tTesting search_node\n\n");
 
   printf("Search for amar - humble : Got %s - %s\n\n", search_song("humble","amar")->artist, search_song("humble","amar")->song);
-  
 
+  printf("\t\t\tTesting search_artist\n\n");
+
+  printf("Search for artist am : Got %s - %s\n\n", search_artist("am")->artist, search_artist("am")->song);
   return 0;
 }
